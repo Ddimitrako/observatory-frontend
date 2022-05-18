@@ -36,7 +36,7 @@ const ItemList = () => {
                                                                                    className="h5 title col-xs-4"> {item.name}</a>
                                             </div>
                                             <div className="h5 title col-md-2 text-right">
-                                                <div><span class="badge badge-primary">{item.priority}</span></div>
+                                                <div><span className="badge badge-primary">{item.priority}</span></div>
                                             </div>
                                         </div>
                                         <p> {item.description} </p>
