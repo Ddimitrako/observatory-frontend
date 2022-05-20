@@ -4,10 +4,11 @@ import axios from 'axios';
 const ItemList = () => {
     const [items, setItems] = useState([]);
     useEffect(() => {
-        fetchItems();
+        fetchItems("needs");
     }, []);
-    const fetchItems = () => {
-        axios.get('http://localhost:8000/get_data/needs')
+
+    const fetchItems = (collection) => {
+        axios.get("http://localhost:8000/get_data/"+collection)
             .then((res) => {
                 console.log(res.data.result);
                 setItems(res.data.result);
