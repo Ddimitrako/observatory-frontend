@@ -1,29 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+var test
+function ItemList  (props)  {
+    {props.data.map((item,index) => {
+             // console.log(item,index)
 
-const ItemList = () => {
-    const [items, setItems] = useState([]);
-    useEffect(() => {
-        fetchItems("needs");
-    }, []);
-
-    const fetchItems = (collection) => {
-        axios.get("http://localhost:8000/get_data/"+collection)
-            .then((res) => {
-                console.log(res.data.result);
-                setItems(res.data.result);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+        }
+    )}
     return (
 
         <div>
-            <h1>Items List</h1>
             <div className='item-container'>
-
-                {items.map((item) => (
+                {props.data.map((item,index) => (
 
                         <article className="card card-product-list" key={item._id}>
                             <div className="row no-gutters">
