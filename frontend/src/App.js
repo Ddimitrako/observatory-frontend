@@ -8,7 +8,7 @@ import {
     Link, BrowserRouter, Routes
 } from "react-router-dom";
 import Home from "./Pages/Home/Home";
-import Item from "./Pages/Item/Item";
+import Item from "./Pages/ItemPage/Item";
 import About from "./Pages/About/About";
 
 function App() {
