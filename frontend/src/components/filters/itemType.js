@@ -3,43 +3,26 @@ import ItemList from "../ItemsListView";
 import axios from "axios";
 
 import ReactDOMServer from 'react-dom/server'
+
 const ItemType=()=> {
 
-  const [items, listCollections] = useState([]);
+  const [collections, listCollections] = useState([]);
+  const [checkedState, setCheckedState] = useState();
+  const [total, setTotal] = useState(0);
   useEffect(() => {
         fetchItems();
     }, []);
 
     const fetchItems = () => {
         axios.get("http://localhost:8000/get_collections/")
-            .then((res) => {
-                // console.log(res.data.result);
-                listCollections(res.data.result);
-                // console.log(listCollections)
+            .then((response) => {
+                     listCollections(response.data.result);
+                     setCheckedState(new Array(response.data.result.length).fill(true))
             })
             .catch((err) => {
                 console.log(err);
             });
     };
-    // const getSumOfCollection = (collection) => {
-    //     axios.get("http://localhost:8000/get_data/"+collection)
-    //         .then((res) => {
-    //           // console.log(res.data.result.length)
-    //           return (
-    //               ReactDOMServer.renderToString(<div>res.data.result.length</div>)
-    //
-    //               );
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //         });
-    // };
-
-  const [checkedState, setCheckedState] = useState(
-    new Array(3).fill(false)
-  );
-
-  const [total, setTotal] = useState(0);
 
   const handleOnChange = (collection) => {
         const updatedCheckedState = checkedState.map((item, index) =>{
@@ -54,7 +37,7 @@ const ItemType=()=> {
 
             if (currentState === true) {
 
-                sum = sum +"|"+ items[index]
+                sum = sum +"|"+ collections[index]
                 console.log(sum)
               return sum;
             }
@@ -67,23 +50,22 @@ const ItemType=()=> {
 
   return (
     <div className="App">
-        {items.map((index,row) => {
-            // console.log(checkedState[row],row)
+        {collections.map((index,row) => {
+            // console.log(checkedState[row],row,index)
           return (
-            <li key={index} style={{listStyleType:'none'}}>
+            <li key={index["collection_name"]} style={{listStyleType:'none'}}>
               <div className="listCollections-list-item " >
 
                   <input style={{"height": '1.2em',"width" : "1.2em"}}
                     type="checkbox"
-                    id={`custom-checkbox-${index}`}
-                    name={index}
-                    value={index}
+                    id={`custom-checkbox-${index["collection_name"]}`}
+                    name={index["collection_name"]}
+                    value={index["collection_name"]}
                     checked={checkedState[row]}
                     onChange={() => handleOnChange(row)}
                   />
-                  <label htmlFor={`custom-checkbox-${index}`} style={{ marginLeft: '.5rem' }} >{index}</label>
-                  {/*<b className="badge badge-pill badge-light float-right">{getSumOfCollection(index)}</b>*/}
-
+                  <label htmlFor={`custom-checkbox-${index}`} style={{ marginLeft: '.5rem' }} >{index["collection_name"]}</label>
+                  <b className="badge badge-pill badge-light float-right">{index["count"]}</b>
               </div>
             </li>
           );
