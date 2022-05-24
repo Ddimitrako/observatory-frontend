@@ -12,11 +12,7 @@ const Home=()=>{
             <header className="section-header">
                 <div><Navbar/></div>
             </header>
-            <section className="section-pagetop bg">
-                <div className="container">
-                    <h5 className="title-page">Items</h5>
-                </div>
-            </section>
+
 
             <section className="section-content padding-y">
                 <div className="container">
