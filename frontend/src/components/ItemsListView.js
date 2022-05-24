@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 var test
 function ItemList  (props)  {
+    if (props.data==null){
+        return <div>No data available</div>
+    }
     {props.data.map((item,index) => {
              // console.log(item,index)
 
@@ -10,7 +13,7 @@ function ItemList  (props)  {
     return (
 
         <div>
-            <div className='item-container'>
+            {/*<div className='item-container'>*/}
                 {props.data.map((item,index) => (
 
                         <article className="card card-product-list" key={item._id}>
@@ -37,7 +40,7 @@ function ItemList  (props)  {
 
 
                 ))}
-            </div>
+            {/*</div>*/}
         </div>
     );
 };

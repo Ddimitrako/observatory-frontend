@@ -7,30 +7,37 @@ import ItemsListView from "../ItemsListView";
 import { render } from 'react-dom';
 const ItemType = () => {
 
-    const [collections, listCollections] = useState([]);
-    const [checkedState, setCheckedState] = useState();
-    const [selected, selectedCollections] = useState(0);
-    // const [data, AllData] = useState()
+    const [collections, listCollections] = useState([]); //use at check button
+    const [checkedState, setCheckedState] = useState();           //use at check button
+    var selectedCollections =[]
+
     useEffect(() => {
-        getCollections()
-        getCollectionsData()
+        getCollections() //call at initialization
     }, []);
 
-    const getCollections = () => {
+    function getCollections () {
         axios.get("http://localhost:8000/get_collections/")
             .then((response) => {
                 listCollections(response.data.result);
                 setCheckedState(new Array(response.data.result.length).fill(true))
+                for (let i in response.data.result)
+                    selectedCollections.push(response.data.result[i]["collection_name"])
+                getCollectionsData(selectedCollections)
             })
             .catch((err) => {
                 console.log(err);
             });
     };
-    const getCollectionsData = () => {
+    function getCollectionsData (data)  {
+        if (data.length==0){
+            const container = document.getElementById('itemList');
+            const root = createRoot(container);
+            root.render(<ItemList data={null}/>);
+            return
+        }
         axios.post("http://localhost:8000/get_data"
-            , ["needs","challenges"] )
+            , data )
             .then((response) => {
-                console.log(response.data.results)
                 let allCollectionsList = []
                 for (let position=0;position<response.data.results.length;position++){
                     for (let i in response.data.results[position])
@@ -38,7 +45,6 @@ const ItemType = () => {
 
                     // console.log(response.data.results[position])
                 }
-                console.log(allCollectionsList)
                 const container = document.getElementById('itemList');
                 const root = createRoot(container);
                 root.render(<ItemList data={allCollectionsList}/>);
@@ -51,26 +57,34 @@ const ItemType = () => {
 
     const handleOnChange = (row) => {
         const updatedCheckedState = checkedState.map((item, index) => {
-                console.log(row, item, index)
                 return index === row ? !item : item
             }
         );
         setCheckedState(updatedCheckedState);
 
-        const totalPrice = updatedCheckedState.reduce(
-            (sum, currentState, index) => {
+        updatedCheckedState.reduce(
+            (result,currentState, index) => {
 
                 if (currentState === true) {
-                    // console.log(collections[index]["collection_name"])
-                    sum = sum.push(collections[index]["collection_name"])
-                    console.log(sum)
-                    return sum;
+                    // selectedCollections=[]
+                    console.log( currentState, index,collections[index]["collection_name"])
+                    selectedCollections.push(collections[index]["collection_name"])
+                    console.log(selectedCollections)
+                    getCollectionsData(selectedCollections)
+                    return true;
                 }
-                return sum;
+                else if (currentState === false){
+                    console.log( currentState, index,collections[index]["collection_name"])
+                    selectedCollections.pop(collections[index]["collection_name"])
+                    console.log(selectedCollections)
+                    getCollectionsData(selectedCollections)
+
+                    return true;
+                }
+                return true;
             },
             []
         );
-        selectedCollections(totalPrice);
     };
 
     return (
