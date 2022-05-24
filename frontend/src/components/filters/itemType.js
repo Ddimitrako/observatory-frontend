@@ -29,9 +29,10 @@ const ItemType = () => {
             });
     };
     function getCollectionsData (data)  {
+        const container = document.getElementById('itemList');
+        const root = createRoot(container);
+
         if (data.length==0){
-            const container = document.getElementById('itemList');
-            const root = createRoot(container);
             root.render(<ItemList data={null}/>);
             return
         }
@@ -45,8 +46,6 @@ const ItemType = () => {
 
                     // console.log(response.data.results[position])
                 }
-                const container = document.getElementById('itemList');
-                const root = createRoot(container);
                 root.render(<ItemList data={allCollectionsList}/>);
             })
             .catch((err) => {
