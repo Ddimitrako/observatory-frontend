@@ -4,13 +4,16 @@ import axios from "axios";
 import {createRoot} from 'react-dom/client';
 import ReactDOMServer from 'react-dom/server'
 import ItemsList from "../itemsList";
+import SearchTextFilter from "./searchTextFilter";
 import {render} from 'react-dom';
 import PriorityFilter from "./priorityFilter"
 const Filters = () => {
 
     const [collections, listCollections] = useState([]); //use at check button
     const [checkedState, setCheckedState] = useState();           //use at check button
-     var selectedCollections = []
+    var selectedCollectionsList = []
+    const [showPriorityFilter,setShowPriorityFilter] = useState(true)
+    const [showTextFilter,setshowTextFilter] = useState(true)
     const [filteredCollectionsData,setFilteredCollectionsData] =useState()
 
     useEffect(() => {
@@ -23,8 +26,8 @@ const Filters = () => {
                 listCollections(response.data.result);
                 setCheckedState(new Array(response.data.result.length).fill(true))
                 for (let i in response.data.result)
-                    selectedCollections.push(response.data.result[i]["collection_name"])
-                getFilteredCollectionsData(selectedCollections) //selectedCollections=["needs","challenges"]
+                    selectedCollectionsList.push(response.data.result[i]["collection_name"])
+                getFilteredCollectionsData(selectedCollectionsList) //selectedCollections=["needs","challenges"]
             })
             .catch((err) => {
                 console.log(err);
@@ -32,7 +35,6 @@ const Filters = () => {
     };
 
     function getFilteredCollectionsData(data) {
-        console.log(data)
         // const container = document.getElementById('itemList');
         // const root = createRoot(container);
         let allCollectionsList = []
@@ -48,7 +50,7 @@ const Filters = () => {
                     for (let i in response.data.results[position])
                         allCollectionsList.push(response.data.results[position][i])
                 setFilteredCollectionsData(allCollectionsList)
-                console.log(filteredCollectionsData)
+                // console.log(filteredCollectionsData)
                     // console.log(response.data.results[position])
                 }
 
@@ -71,25 +73,38 @@ const Filters = () => {
             (result, currentState, index) => {
 
                 if (currentState === true) {
-                    // selectedCollections=[]
-                    // console.log(currentState, index, collections[index]["collection_name"])
-                    selectedCollections.push(collections[index]["collection_name"])
-                    // console.log(selectedCollections)
-                    getFilteredCollectionsData(selectedCollections)
+                    selectedCollectionsList.push(collections[index]["collection_name"])
+                    console.log(selectedCollectionsList)
+                    // SetFiltersVisibility(selectedCollectionsList)
+                    getFilteredCollectionsData(selectedCollectionsList)
                     return true;
                 } else if (currentState === false) {
-                    // console.log(currentState, index, collections[index]["collection_name"])
-                    selectedCollections.pop(collections[index]["collection_name"])
-                    // console.log(selectedCollections)
-                    getFilteredCollectionsData(selectedCollections)
-
+                    selectedCollectionsList.pop(collections[index]["collection_name"])
+                    console.log(selectedCollectionsList)
+                    // SetFiltersVisibility(selectedCollectionsList)
+                    getFilteredCollectionsData(selectedCollectionsList)
                     return true;
                 }
                 return true;
             },
             []
         );
+
     };
+
+    // function SetFiltersVisibility(list){ //Hide or show TEXT and PRIORITY filters
+    //    console.log(list)
+    //     if ("needs" in list){
+    //
+    //         // setshowTextFilter(true)
+    //         setShowPriorityFilter(true)
+    //     }
+    //     else {
+    //         // setshowTextFilter(false)
+    //         setShowPriorityFilter(false)
+    //     }
+    //
+    // }
 
     return (
 
@@ -101,29 +116,7 @@ const Filters = () => {
                         <aside className="col-md-3">
                             <div id= "filters"></div>
                             <div className="card">
-                                <article className="filter-group">
-                                    <header className="card-header">
-                                        <a href="/#" data-toggle="collapse" data-target="#collapse_1"
-                                           aria-expanded="true" className="">
-                                            <i className="icon-control fa fa-chevron-down"></i>
-                                            <h6 className="title">TEXT</h6>
-                                        </a>
-                                    </header>
-                                    <div className="filter-content collapse show" id="collapse_1">
-                                        <div className="card-body">
-                                            <form className="pb-3">
-                                                <div className="input-group">
-                                                    <input type="text" className="form-control"
-                                                           placeholder="Search Text inside Descriptions"/>
-                                                    <div className="input-group-append">
-                                                        <button className="btn btn-light" type="button"><i
-                                                            className="fa fa-search"></i></button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </article>
+                                <SearchTextFilter visible={showTextFilter}></SearchTextFilter>
                                 <article className="filter-group">
                                     <header className="card-header">
                                         <a href="/#" data-toggle="collapse" data-target="#collapse_2"
@@ -158,7 +151,7 @@ const Filters = () => {
                                         </div>
                                     </div>
                                 </article>
-                                <PriorityFilter visible={false}></PriorityFilter>
+                                <PriorityFilter visible={showPriorityFilter}></PriorityFilter>
                             </div>
 
                         </aside>
@@ -202,50 +195,3 @@ const Filters = () => {
 }
 export default Filters;
 
-// const ItemList = ({filteredData}) => {
-//     console.log(filteredData)
-//     // const [items, setItems] = useState([])
-//
-//     if (filteredData == null) {
-//         return <div>No data available</div>
-//     }
-//     // {
-//     //     filteredData.map((item, index) => {
-//     //             console.log(item,index)
-//     //
-//     //         }
-//     //     )
-//     // }
-//     return (
-//         <div>
-//             <div className='item-container'>
-//             {filteredData.map((item, index) => (
-//
-//                 <article className="card card-product-list" key={item._id}>
-//                     <div className="row no-gutters">
-//
-//                         <div className="col-md-12">
-//
-//                             <div className="info-main bg">
-//                                 <div className="row">
-//
-//                                     <div className="col-xs-4 text-left"><a href="/#"
-//                                                                            className="h5 title col-xs-4"> {item.name}</a>
-//                                     </div>
-//                                     <div className="h5 title col-md-2 text-right">
-//                                         <div><span className="badge badge-primary">{item.priority}</span></div>
-//                                     </div>
-//                                 </div>
-//                                 <p> {item.description} </p>
-//                             </div>
-//                         </div>
-//
-//                     </div>
-//                 </article>
-//
-//
-//             ))}
-//             </div>
-//         </div>
-//     );
-// };

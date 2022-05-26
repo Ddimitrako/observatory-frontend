@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 const ItemsList = ({filteredData}) => {
-    console.log(filteredData)
+    // console.log(filteredData)
     // const [items, setItems] = useState([])
 
     if (filteredData == null) {
