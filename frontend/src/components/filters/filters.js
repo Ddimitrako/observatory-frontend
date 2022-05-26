@@ -4,9 +4,11 @@ import axios from "axios";
 import {createRoot} from 'react-dom/client';
 import ReactDOMServer from 'react-dom/server'
 import ItemsList from "../itemsList";
+
 import SearchTextFilter from "./searchTextFilter";
 import {render} from 'react-dom';
 import PriorityFilter from "./priorityFilter"
+import PaginatedItems from "../itemsList";
 const Filters = () => {
 
     const [collections, listCollections] = useState([]); //use at check button
@@ -168,7 +170,7 @@ const Filters = () => {
                             {/*</header>*/}
 
                             <div id="itemList">
-                                <ItemsList filteredData={filteredCollectionsData}></ItemsList>
+                                <PaginatedItems filteredData={filteredCollectionsData}></PaginatedItems>
                             </div>
 
                             <nav className="mt-4" aria-label="Page navigation sample">
