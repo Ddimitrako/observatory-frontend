@@ -1,6 +1,6 @@
 import './App.css';
 import React, {useState, useEffect} from "react";
-import ItemList from "./components/ItemsListView";
+
 import {
     BrowserRouter as Router,
     Switch,
