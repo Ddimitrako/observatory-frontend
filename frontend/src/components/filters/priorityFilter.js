@@ -6,7 +6,7 @@ import ReactDOMServer from 'react-dom/server'
 import ItemsListView from "../itemsList";
 import {render} from 'react-dom';
 
-const PriorityFilter = ({visible}) => {
+const PriorityFilter = () => {
 
     const [priority, setPriority] = React.useState('none');
 
@@ -18,9 +18,6 @@ const PriorityFilter = ({visible}) => {
         setPriority('none');
     }
 
-    if (visible == false) {
-        return (<div></div>)
-    }
     return (<article className="filter-group">
         <header className="card-header">
             <a href="/#" data-toggle="collapse" data-target="#collapse_5"

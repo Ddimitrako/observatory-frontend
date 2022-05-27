@@ -17,15 +17,10 @@ const Filters = () => {
     const [showPriorityFilter,setShowPriorityFilter] = useState(true)
     const [showTextFilter,setshowTextFilter] = useState(true)
     const [filteredCollectionsData,setFilteredCollectionsData] =useState()
-    const [passDataToItemList,setPassDataToItemList] =useState(false)
+
     useEffect(() => {
         getCollections() //call at initialization
     }, []);
-
-    useEffect(()=>{
-        setPassDataToItemList(true)
-        console.log(filteredCollectionsData)
-    },[filteredCollectionsData])
 
     function getCollections() {
         axios.get("http://localhost:8000/get_collections/")
@@ -75,20 +70,16 @@ const Filters = () => {
             }
         );
         setCheckedState(updatedCheckedState);
-
+        SetFiltersVisibility(updatedCheckedState)
         updatedCheckedState.reduce(
             (result, currentState, index) => {
 
                 if (currentState === true) {
                     selectedCollectionsList.push(collections[index]["collection_name"])
-                    console.log(selectedCollectionsList)
-                    // SetFiltersVisibility(selectedCollectionsList)
                     getFilteredCollectionsData(selectedCollectionsList)
                     return true;
                 } else if (currentState === false) {
                     selectedCollectionsList.pop(collections[index]["collection_name"])
-                    console.log(selectedCollectionsList)
-                    // SetFiltersVisibility(selectedCollectionsList)
                     getFilteredCollectionsData(selectedCollectionsList)
                     return true;
                 }
@@ -99,20 +90,12 @@ const Filters = () => {
 
     };
 
-    // function SetFiltersVisibility(list){ //Hide or show TEXT and PRIORITY filters
-    //    console.log(list)
-    //     if ("needs" in list){
-    //
-    //         // setshowTextFilter(true)
-    //         setShowPriorityFilter(true)
-    //     }
-    //     else {
-    //         // setshowTextFilter(false)
-    //         setShowPriorityFilter(false)
-    //     }
-    //
-    // }
-
+    function SetFiltersVisibility(list){ //Hide or show TEXT and PRIORITY filters
+        if (list[1]==true){
+            setShowPriorityFilter(true)}
+        else {
+            setShowPriorityFilter(false)}
+    }
     return (
 
         <div className="Filters">
@@ -158,7 +141,7 @@ const Filters = () => {
                                         </div>
                                     </div>
                                 </article>
-                                <PriorityFilter visible={showPriorityFilter}></PriorityFilter>
+                                 {showPriorityFilter && <PriorityFilter ></PriorityFilter>}
                             </div>
 
                         </aside>
