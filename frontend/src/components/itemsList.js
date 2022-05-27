@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import ReactPaginate from 'react-paginate';
+
 const ItemsList = ({filteredData}) => {
     // console.log(filteredData)
     // const [items, setItems] = useState([])
 
-    if (filteredData == null) {
+    if (!Array.isArray(filteredData)) {
         return <div>No data available</div>
     }
     // {
@@ -18,40 +19,40 @@ const ItemsList = ({filteredData}) => {
     return (
         <div>
             <div className='item-container'>
-            {filteredData.map((item, index) => (
+                {filteredData.map((item, index) => (
 
-                <article className="card card-product-list" key={item._id}>
-                    <div className="row no-gutters">
+                    <article className="card card-product-list" key={item._id}>
+                        <div className="row no-gutters">
 
-                        <div className="col-md-12">
+                            <div className="col-md-12">
 
-                            <div className="info-main bg">
-                                <div className="row">
+                                <div className="info-main bg">
+                                    <div className="row">
 
-                                    <div className="col-xs-4 text-left"><a href="/#"
-                                                                           className="h5 title col-xs-4"> {item.name}</a>
+                                        <div className="col-xs-4 text-left"><a href="/#"
+                                                                               className="h5 title col-xs-4"> {item.name}</a>
+                                        </div>
+                                        <div className="h5 title col-md-2 text-right">
+                                            <div><span className="badge badge-primary">{item.priority}</span></div>
+                                        </div>
                                     </div>
-                                    <div className="h5 title col-md-2 text-right">
-                                        <div><span className="badge badge-primary">{item.priority}</span></div>
-                                    </div>
+                                    <p> {item.description} </p>
                                 </div>
-                                <p> {item.description} </p>
                             </div>
+
                         </div>
-
-                    </div>
-                </article>
+                    </article>
 
 
-            ))}
+                ))}
             </div>
         </div>
     );
 };
- // export default ItemsList;
+// export default ItemsList;
 
 // Example items, to simulate fetching from another resources.
-const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+const items = [...Array(33).keys()];
 
 // function Items({ currentItems }) {
 //   return (
@@ -66,44 +67,61 @@ const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 //   );
 // }
 
-function PaginatedItems({ itemsPerPage }) {
-  // We start with an empty list of items.
-  const [filteredData, setFilteredData] = useState(null);
-  const [pageCount, setPageCount] = useState(0);
-  // Here we use item offsets; we could also use page offsets
-  // following the API or data you're working with.
-  const [itemOffset, setItemOffset] = useState(0);
+const PaginatedItems = ({itemsData}) =>{
+    console.log(itemsData)
+    if (itemsData==undefined){
+        itemsData=[]}
+    const itemsPerPage =6
+    // We start with an empty list of items.
+    const [currentItems, setCurrentItems] = useState();
+    const [pageCount, setPageCount] = useState(0);
+    // Here we use item offsets; we could also use page offsets
+    // following the API or data you're working with.
+    const [itemOffset, setItemOffset] = useState(0);
 
-  useEffect(() => {
-    // Fetch items from another resources.
-    const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    setFilteredData(items.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(items.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage]);
+    useEffect(() => {
+        // Fetch items from another resources.
+        const endOffset = itemOffset + itemsPerPage;
+        console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+        setCurrentItems(itemsData.slice(itemOffset, endOffset));
+        console.log(itemsData.slice(itemOffset, endOffset))
+        console.log(itemsData.slice(itemOffset, endOffset))
+        setPageCount(Math.ceil(itemsData.length / itemsPerPage)); //pages number
+    }, [itemOffset, itemsPerPage,itemsData]);
 
-  // Invoke when user click to request another page.
-  const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    // Invoke when user click to request another page.
+    const handlePageClick = (event) => {
+        const newOffset = event.selected * itemsPerPage % itemsData.length;
+        console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
+        setItemOffset(newOffset);
+    };
+
+    return (
+        <>
+            <ReactPaginate
+                nextLabel="next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={3}
+                marginPagesDisplayed={2}
+                pageCount={pageCount}
+                previousLabel="< previous"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakLabel="..."
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                containerClassName="pagination"
+                activeClassName="active"
+                renderOnZeroPageCount={null}
+            />
+            <ItemsList filteredData={currentItems}></ItemsList>
+
+        </>
     );
-    setItemOffset(newOffset);
-  };
-
-  return (
-    <>
-      <ItemsList filteredData={filteredData} />
-      <ReactPaginate
-        breakLabel="..."
-        nextLabel="next >"
-        onPageChange={handlePageClick}
-        pageRangeDisplayed={5}
-        pageCount={pageCount}
-        previousLabel="< previous"
-        renderOnZeroPageCount={null}
-      />
-    </>
-  );
 }
- export default PaginatedItems;
+
+export default PaginatedItems;
