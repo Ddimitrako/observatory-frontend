@@ -5,7 +5,7 @@ import ReactPaginate from 'react-paginate';
 const ItemsList = ({filteredData}) => {
     // console.log(filteredData)
     // const [items, setItems] = useState([])
-
+    let hasPriority = false
     if (!Array.isArray(filteredData)) {
         return <div>No data available</div>
     }
@@ -27,16 +27,26 @@ const ItemsList = ({filteredData}) => {
                             <div className="col-md-12">
 
                                 <div className="info-main bg">
-                                    <div className="row">
+                                    <div className="container">
+                                        <div className="row">
+                                            <div className="col-md-8"><a href="/#"
+                                                                         className="h5 title "> {item.name}</a></div>
+                                            {item.priority &&
+                                            <div className=" d-flex justify-content-end h5 col-md-2 center-right"><p
+                                                className=" badge font-weight-bold">Priority:
+                                            </p></div>}
+                                            {<div className="d-flex justify-content-start h5 col-md-2 ml-auto"><span
+                                                className="badge badge-primary">{item.priority}</span></div>}
 
-                                        <div className="col-xs-4 text-left"><a href="/#"
-                                                                               className="h5 title col-xs-4"> {item.name}</a>
+
+                                            {/*<div className="col-xs-4 ">*/}
+                                            {/*</div>*/}
+                                            {/*<div className="h5 col-xs-4">*/}
+                                            {/*    <div className=""></div>*/}
+                                            {/*</div>*/}
                                         </div>
-                                        <div className="h5 title col-md-2 text-right">
-                                            <div><span className="badge badge-primary">{item.priority}</span></div>
-                                        </div>
+                                        <p> {item.description} </p>
                                     </div>
-                                    <p> {item.description} </p>
                                 </div>
                             </div>
 
@@ -49,26 +59,10 @@ const ItemsList = ({filteredData}) => {
         </div>
     );
 };
-// export default ItemsList;
 
 // Example items, to simulate fetching from another resources.
-const items = [...Array(33).keys()];
-
-// function Items({ currentItems }) {
-//   return (
-//     <>
-//       {currentItems &&
-//         currentItems.map((item) => (
-//           <div>
-//             <h3>Item #{item}</h3>
-//           </div>
-//         ))}
-//     </>
-//   );
-// }
 
 const PaginatedItems = ({itemsData}) => {
-    console.log(itemsData)
     if (itemsData === undefined) {
         itemsData = []
     }
@@ -83,10 +77,9 @@ const PaginatedItems = ({itemsData}) => {
     useEffect(() => {
         // Fetch items from another resources.
         const endOffset = itemOffset + itemsPerPage;
-        console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+        // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
         setCurrentItems(itemsData.slice(itemOffset, endOffset));
-        console.log(itemsData.slice(itemOffset, endOffset))
-        console.log(itemsData.slice(itemOffset, endOffset))
+        // console.log(itemsData.slice(itemOffset, endOffset))
         setPageCount(Math.ceil(itemsData.length / itemsPerPage)); //pages number
     }, [itemOffset, itemsPerPage, itemsData]);
 
