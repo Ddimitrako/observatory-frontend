@@ -67,18 +67,19 @@ const items = [...Array(33).keys()];
 //   );
 // }
 
-const PaginatedItems = ({itemsData}) =>{
+const PaginatedItems = ({itemsData}) => {
     console.log(itemsData)
-    if (itemsData==undefined){
-        itemsData=[]}
-    const itemsPerPage =6
+    if (itemsData === undefined) {
+        itemsData = []
+    }
+    const itemsPerPage = 6
     // We start with an empty list of items.
     const [currentItems, setCurrentItems] = useState();
     const [pageCount, setPageCount] = useState(0);
     // Here we use item offsets; we could also use page offsets
     // following the API or data you're working with.
     const [itemOffset, setItemOffset] = useState(0);
-
+    const [pageOffset, setPageOffset] = useState(0);
     useEffect(() => {
         // Fetch items from another resources.
         const endOffset = itemOffset + itemsPerPage;
@@ -87,24 +88,22 @@ const PaginatedItems = ({itemsData}) =>{
         console.log(itemsData.slice(itemOffset, endOffset))
         console.log(itemsData.slice(itemOffset, endOffset))
         setPageCount(Math.ceil(itemsData.length / itemsPerPage)); //pages number
-    }, [itemOffset, itemsPerPage,itemsData]);
+    }, [itemOffset, itemsPerPage, itemsData]);
 
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
+
         const newOffset = event.selected * itemsPerPage % itemsData.length;
         console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
         setItemOffset(newOffset);
+        setPageOffset(event.selected);
     };
 
     return (
         <>
             <ReactPaginate
-                nextLabel="next >"
-                onPageChange={handlePageClick}
-                pageRangeDisplayed={3}
-                marginPagesDisplayed={2}
-                pageCount={pageCount}
-                previousLabel="< previous"
+                previousLabel="Previous"
+                nextLabel="Next"
                 pageClassName="page-item"
                 pageLinkClassName="page-link"
                 previousClassName="page-item"
@@ -114,12 +113,35 @@ const PaginatedItems = ({itemsData}) =>{
                 breakLabel="..."
                 breakClassName="page-item"
                 breakLinkClassName="page-link"
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
                 containerClassName="pagination"
                 activeClassName="active"
-                renderOnZeroPageCount={null}
+                forcePage={pageOffset}
             />
             <ItemsList filteredData={currentItems}></ItemsList>
-
+            <ReactPaginate
+                previousLabel="Previous"
+                nextLabel="Next"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakLabel="..."
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                pageCount={pageCount}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName="pagination"
+                activeClassName="active"
+                forcePage={pageOffset}
+            />
         </>
     );
 }
