@@ -9,19 +9,27 @@ import SearchTextFilter from "./searchTextFilter";
 import {render} from 'react-dom';
 import PriorityFilter from "./priorityFilter"
 import PaginatedItems from "../itemsList";
+
 const Filters = () => {
 
     const [collections, listCollections] = useState([]); //use at check button
     const [checkedState, setCheckedState] = useState();           //use at check button
     var selectedCollectionsList = []
-    const [showPriorityFilter,setShowPriorityFilter] = useState(true)
-    const [showTextFilter,setshowTextFilter] = useState(true)
-    const [filteredCollectionsData,setFilteredCollectionsData] =useState()
-    const [priority,setPriority] = useState('any')
+    const [selectedCollList, setSelectedCollList] = useState([]);
+    const [showPriorityFilter, setShowPriorityFilter] = useState(true)
+    const [filteredCollectionsData, setFilteredCollectionsData] = useState()
+    const [priority, setPriority] = useState('any')
+    const [priorityData,setPriorityData] =useState([])
     useEffect(() => {
         getCollections() //call at initialization
     }, []);
-
+    useEffect(() => {
+        // let newList =filteredCollectionsData
+        console.log(filteredCollectionsData)
+        // newList.push(priorityData)
+        // setFilteredCollectionsData(oldArray => [...oldArray, priorityData]);
+       // setFilteredCollectionsData (priorityData)
+    }, [priorityData]);
     function getCollections() {
         axios.get("http://localhost:8000/get_collections/")
             .then((response) => {
@@ -51,12 +59,8 @@ const Filters = () => {
                 for (let position = 0; position < response.data.results.length; position++) {
                     for (let i in response.data.results[position])
                         allCollectionsList.push(response.data.results[position][i])
-                setFilteredCollectionsData(allCollectionsList)
-                // console.log(filteredCollectionsData)
-                    // console.log(response.data.results[position])
+                    setFilteredCollectionsData(allCollectionsList)
                 }
-
-                // root.render(<ItemList data={allCollectionsList}/>);
             })
             .catch((err) => {
                 console.log(err);
@@ -65,42 +69,48 @@ const Filters = () => {
 
 
     const handleOnChange = (row) => {
+        let collectionsList = []
+        collections.map((index) => {
+            let collection = {[index.collection_name.toString()]: true}
+            collectionsList.push(collection)
+        })
         const updatedCheckedState = checkedState.map((item, index) => {
+                if (index === row) {
+                    collectionsList[index] = {[collections[index].collection_name]: !item}
+
+                } else {
+                    collectionsList[index] = {[collections[index].collection_name]: item}
+                }
+
                 return index === row ? !item : item
             }
         );
         setCheckedState(updatedCheckedState);
-        SetFiltersVisibility(updatedCheckedState)
-        updatedCheckedState.reduce(
-            (result, currentState, index) => {
 
-                if (currentState === true) {
-                    selectedCollectionsList.push(collections[index]["collection_name"])
-                    getFilteredCollectionsData(selectedCollectionsList)
-                    return true;
-                } else if (currentState === false) {
-                    selectedCollectionsList.pop(collections[index]["collection_name"])
-                    getFilteredCollectionsData(selectedCollectionsList)
-                    return true;
-                }
-                return true;
-            },
-            []
-        );
+        let filteredColList = []
+        collectionsList.map((item) => {
+            if (Object.values(item)[0] === true) {
+                filteredColList.push(Object.keys(item)[0])
+            }
+        })
+        setSelectedCollList(filteredColList)
+        getFilteredCollectionsData(filteredColList)
+        SetFiltersVisibility(filteredColList)
 
     };
 
-    function SetFiltersVisibility(list){ //Hide or show TEXT and PRIORITY filters
-        if (list[1]==true){
-            setShowPriorityFilter(true)
-            setPriority("any")
-        }
-
-        else {
-            setShowPriorityFilter(false)
-            setPriority("any")
+    function SetFiltersVisibility(list) { //Hide or show TEXT and PRIORITY filters
+        for (let obj in list) {
+            if (list[obj] == 'needs') {
+                setShowPriorityFilter(true)
+                setPriority("any")
+            } else {
+                setShowPriorityFilter(false)
+                setPriority("any")
+            }
         }
     }
+
     return (
 
         <div className="Filters">
@@ -109,7 +119,7 @@ const Filters = () => {
 
                     <div className="row">
                         <aside className="col-md-3">
-                            <div id= "filters"></div>
+                            <div id="filters"></div>
                             <div className="card">
                                 <SearchTextFilter ></SearchTextFilter>
                                 <article className="filter-group">
@@ -146,7 +156,8 @@ const Filters = () => {
                                         </div>
                                     </div>
                                 </article>
-                                 {showPriorityFilter && <PriorityFilter priority={priority} setPriority={setPriority} setFilteredCollectionsData={setFilteredCollectionsData}></PriorityFilter>}
+                                {showPriorityFilter && <PriorityFilter priority={priority} setPriority={setPriority} priorityData={priorityData}
+                                                                       setPriorityData={setPriorityData}></PriorityFilter>}
                             </div>
 
                         </aside>
