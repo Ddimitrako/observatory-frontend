@@ -1,33 +1,41 @@
 import React, {useState, useEffect} from 'react';
-// import ItemList from "../ItemsListView";
 import axios from "axios";
-import {createRoot} from 'react-dom/client';
-import ReactDOMServer from 'react-dom/server'
-import ItemsListView from "../itemsList";
-import {render} from 'react-dom';
 
-const PriorityFilter = ({priority, setPriority}) => {
+const PriorityFilter = ({priority, setPriority, priorityData, setFilteredCollectionsData}) => {
 
     const handleChange = (event) => {
         console.log(event.target.value)
         setPriority(event.target.value)
     }
     const resetRadioState = () => {
-        setPriority('none');
+        setPriority('any');
     }
     useEffect(() => {
-        if (priority!='none'){
-        getItemsByPriority(priority)} //call at initialization
+        // if (priority != 'any') {
+            getItemsByPriority(priority)
+        // } //call at initialization
 
     }, [priority]);
+
     function getItemsByPriority(priority) {
-        axios.post("http://localhost:8000/filter_data/needs",{"priority":priority})
+        if (priority === 'any'){
+            axios.get("http://localhost:8000/get_data/needs" )
             .then((response) => {
-                console.log(response.data)
+                setFilteredCollectionsData(response.data.needs)
             })
             .catch((err) => {
                 console.log(err);
             });
+        }
+        else {
+            axios.post("http://localhost:8000/filter_data/needs", {"priority": priority})
+                .then((response) => {
+                    setFilteredCollectionsData(response.data.needs)
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     };
     return (<article className="filter-group">
         <header className="card-header">
@@ -41,7 +49,7 @@ const PriorityFilter = ({priority, setPriority}) => {
             <div className="card-body">
                 <label className="custom-control custom-radio">
                     <input type="radio" name="myfilter_radio"
-                           className="custom-control-input" value={"none"} checked={priority === 'none'}
+                           className="custom-control-input" value={"any"} checked={priority === 'any'}
                            onChange={handleChange} onClick={resetRadioState}/>
                     <div className="custom-control-label">Any Priority</div>
                 </label>

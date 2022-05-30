@@ -17,7 +17,7 @@ const Filters = () => {
     const [showPriorityFilter,setShowPriorityFilter] = useState(true)
     const [showTextFilter,setshowTextFilter] = useState(true)
     const [filteredCollectionsData,setFilteredCollectionsData] =useState()
-    const [priority,setPriority] = useState('none')
+    const [priority,setPriority] = useState('any')
     useEffect(() => {
         getCollections() //call at initialization
     }, []);
@@ -92,9 +92,14 @@ const Filters = () => {
 
     function SetFiltersVisibility(list){ //Hide or show TEXT and PRIORITY filters
         if (list[1]==true){
-            setShowPriorityFilter(true)}
+            setShowPriorityFilter(true)
+            setPriority("any")
+        }
+
         else {
-            setShowPriorityFilter(false)}
+            setShowPriorityFilter(false)
+            setPriority("any")
+        }
     }
     return (
 
@@ -141,7 +146,7 @@ const Filters = () => {
                                         </div>
                                     </div>
                                 </article>
-                                 {showPriorityFilter && <PriorityFilter priority={priority} setPriority={setPriority}></PriorityFilter>}
+                                 {showPriorityFilter && <PriorityFilter priority={priority} setPriority={setPriority} setFilteredCollectionsData={setFilteredCollectionsData}></PriorityFilter>}
                             </div>
 
                         </aside>
