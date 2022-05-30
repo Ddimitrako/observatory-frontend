@@ -111,7 +111,7 @@ const Filters = () => {
                         <aside className="col-md-3">
                             <div id= "filters"></div>
                             <div className="card">
-                                <SearchTextFilter visible={showTextFilter}></SearchTextFilter>
+                                <SearchTextFilter ></SearchTextFilter>
                                 <article className="filter-group">
                                     <header className="card-header">
                                         <a href="/#" data-toggle="collapse" data-target="#collapse_2"

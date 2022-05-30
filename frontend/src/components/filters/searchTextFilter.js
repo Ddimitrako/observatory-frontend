@@ -2,11 +2,9 @@ import PriorityFilter from "./priorityFilter";
 import React from "react";
 
 
-const SearchTextFilter = ({visible}) => {
+const SearchTextFilter = () => {
     // console.log(visible)
-    if (visible == false) {
-        return (<div></div>)
-    }
+
     return (
         <article className="filter-group">
             <header className="card-header">
