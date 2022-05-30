@@ -17,7 +17,7 @@ const Filters = () => {
     const [showPriorityFilter,setShowPriorityFilter] = useState(true)
     const [showTextFilter,setshowTextFilter] = useState(true)
     const [filteredCollectionsData,setFilteredCollectionsData] =useState()
-
+    const [priority,setPriority] = useState('none')
     useEffect(() => {
         getCollections() //call at initialization
     }, []);
@@ -141,7 +141,7 @@ const Filters = () => {
                                         </div>
                                     </div>
                                 </article>
-                                 {showPriorityFilter && <PriorityFilter ></PriorityFilter>}
+                                 {showPriorityFilter && <PriorityFilter priority={priority} setPriority={setPriority}></PriorityFilter>}
                             </div>
 
                         </aside>

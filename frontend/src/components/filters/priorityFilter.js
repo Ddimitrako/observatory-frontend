@@ -6,9 +6,7 @@ import ReactDOMServer from 'react-dom/server'
 import ItemsListView from "../itemsList";
 import {render} from 'react-dom';
 
-const PriorityFilter = () => {
-
-    const [priority, setPriority] = React.useState('none');
+const PriorityFilter = ({priority, setPriority}) => {
 
     const handleChange = (event) => {
         console.log(event.target.value)
@@ -17,7 +15,20 @@ const PriorityFilter = () => {
     const resetRadioState = () => {
         setPriority('none');
     }
+    useEffect(() => {
+        if (priority!='none'){
+        getItemsByPriority(priority)} //call at initialization
 
+    }, [priority]);
+    function getItemsByPriority(priority) {
+        axios.post("http://localhost:8000/filter_data/needs",{"priority":priority})
+            .then((response) => {
+                console.log(response.data)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
     return (<article className="filter-group">
         <header className="card-header">
             <a href="/#" data-toggle="collapse" data-target="#collapse_5"
