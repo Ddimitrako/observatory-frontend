@@ -10,6 +10,7 @@ const Footer = () => {
                 <p>
                     <a href="/#">Terms and conditions</a>
                 </p>
+                This project has received funding from the European Union’s Horizon 2020 research and innovation under grant agreement N° 101004605
             </div>
         </footer>
     )
