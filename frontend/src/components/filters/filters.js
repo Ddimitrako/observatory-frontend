@@ -19,11 +19,9 @@ const Filters = () => {
     const [showPriorityFilter, setShowPriorityFilter] = useState(true)
     const [filteredCollectionsData, setFilteredCollectionsData] = useState()
     const [priority, setPriority] = useState('any')
-    const [priorityData,setPriorityData] =useState([])
     useEffect(() => {
         getCollections() //call at initialization
     }, []);
-
 
 
     function getCollections() {
@@ -41,8 +39,6 @@ const Filters = () => {
     };
 
     function getFilteredCollectionsData(data) {
-        // const container = document.getElementById('itemList');
-        // const root = createRoot(container);
         let allCollectionsList = []
         if (data.length == 0) {
             setFilteredCollectionsData(allCollectionsList)
@@ -119,7 +115,8 @@ const Filters = () => {
                         <aside className="col-md-3">
                             <div id="filters"></div>
                             <div className="card">
-                                <SearchTextFilter ></SearchTextFilter>
+                                <SearchTextFilter priority={priority} selectedCollList={selectedCollList}
+                                                  setFilteredCollectionsData={setFilteredCollectionsData}></SearchTextFilter>
                                 <article className="filter-group">
                                     <header className="card-header">
                                         <a href="/#" data-toggle="collapse" data-target="#collapse_2"
@@ -154,7 +151,9 @@ const Filters = () => {
                                         </div>
                                     </div>
                                 </article>
-                                {showPriorityFilter && <PriorityFilter priority={priority} setPriority={setPriority}  setFilteredCollectionsData={setFilteredCollectionsData} selectedCollList={selectedCollList}></PriorityFilter>}
+                                {showPriorityFilter && <PriorityFilter priority={priority} setPriority={setPriority}
+                                                                       setFilteredCollectionsData={setFilteredCollectionsData}
+                                                                       selectedCollList={selectedCollList}></PriorityFilter>}
                             </div>
 
                         </aside>
