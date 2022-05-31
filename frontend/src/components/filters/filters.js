@@ -23,13 +23,9 @@ const Filters = () => {
     useEffect(() => {
         getCollections() //call at initialization
     }, []);
-    useEffect(() => {
-        // let newList =filteredCollectionsData
-        console.log(filteredCollectionsData)
-        // newList.push(priorityData)
-        // setFilteredCollectionsData(oldArray => [...oldArray, priorityData]);
-       // setFilteredCollectionsData (priorityData)
-    }, [priorityData]);
+
+
+
     function getCollections() {
         axios.get("http://localhost:8000/get_collections/")
             .then((response) => {
@@ -55,11 +51,12 @@ const Filters = () => {
         axios.post("http://localhost:8000/get_data"
             , data)
             .then((response) => {
-
+                console.log(data)
                 for (let position = 0; position < response.data.results.length; position++) {
                     for (let i in response.data.results[position])
                         allCollectionsList.push(response.data.results[position][i])
                     setFilteredCollectionsData(allCollectionsList)
+                    setSelectedCollList(data)
                 }
             })
             .catch((err) => {
@@ -94,6 +91,7 @@ const Filters = () => {
             }
         })
         setSelectedCollList(filteredColList)
+        console.log(filteredColList)
         getFilteredCollectionsData(filteredColList)
         SetFiltersVisibility(filteredColList)
 
@@ -156,8 +154,7 @@ const Filters = () => {
                                         </div>
                                     </div>
                                 </article>
-                                {showPriorityFilter && <PriorityFilter priority={priority} setPriority={setPriority} priorityData={priorityData}
-                                                                       setPriorityData={setPriorityData}></PriorityFilter>}
+                                {showPriorityFilter && <PriorityFilter priority={priority} setPriority={setPriority}  setFilteredCollectionsData={setFilteredCollectionsData} selectedCollList={selectedCollList}></PriorityFilter>}
                             </div>
 
                         </aside>

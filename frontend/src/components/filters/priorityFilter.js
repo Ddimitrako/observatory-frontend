@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
 
-const PriorityFilter = ({priority, setPriority, priorityData,setPriorityData}) => {
+const PriorityFilter = ({priority, setPriority,setFilteredCollectionsData,selectedCollList}) => {
 
     const handleChange = (event) => {
         console.log(event.target.value)
@@ -11,17 +11,25 @@ const PriorityFilter = ({priority, setPriority, priorityData,setPriorityData}) =
         setPriority('any');
     }
     useEffect(() => {
-        // if (priority != 'any') {
+            console.log("line14",priority)
             getItemsByPriority(priority)
         // } //call at initialization
 
     }, [priority]);
 
     function getItemsByPriority(priority) {
+        console.log(selectedCollList)
+        let allCollectionsList = []
         if (priority === 'any'){
-            axios.get("http://localhost:8000/get_data/needs" )
+            axios.post("http://localhost:8000/get_data/",selectedCollList )
             .then((response) => {
-                setPriorityData (response.data.needs)
+
+                for (let position = 0; position < response.data.results.length; position++) {
+                    for (let i in response.data.results[position])
+                        allCollectionsList.push(response.data.results[position][i])
+                    console.log(allCollectionsList)
+                    setFilteredCollectionsData(allCollectionsList)
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -30,7 +38,7 @@ const PriorityFilter = ({priority, setPriority, priorityData,setPriorityData}) =
         else {
             axios.post("http://localhost:8000/filter_data/needs", {"priority": priority})
                 .then((response) => {
-                    setPriorityData (response.data.needs)
+                    setFilteredCollectionsData (response.data.needs)
                 })
                 .catch((err) => {
                     console.log(err);
