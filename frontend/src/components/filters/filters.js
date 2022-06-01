@@ -170,7 +170,7 @@ const Filters = () => {
                             {/*</header>*/}
 
                             <div id="itemList">
-                                <PaginatedItems itemsData={filteredCollectionsData}></PaginatedItems>
+                                {filteredCollectionsData &&<PaginatedItems itemsData={filteredCollectionsData}></PaginatedItems>}
                             </div>
 
                         </main>
