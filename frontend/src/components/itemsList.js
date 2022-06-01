@@ -78,19 +78,27 @@ const PaginatedItems = ({itemsData}) => {
     const [pageOffset, setPageOffset] = useState(0);
     useEffect(() => {
         // Fetch items from another resources.
-        console.log(itemsData)
         const endOffset = itemOffset + itemsPerPage;
         // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
         setCurrentItems(itemsData.slice(itemOffset, endOffset));
         // console.log(itemsData.slice(itemOffset, endOffset))
         setPageCount(Math.ceil(itemsData.length / itemsPerPage)); //pages number
+
     }, [itemOffset, itemsPerPage, itemsData]);
+
+    useEffect(() => {        //if itemsData change go to page 1
+        setPageOffset(0)
+        setItemOffset(0)
+        setPageOffset(0)
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(itemsData.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(itemsData.length / itemsPerPage)); //pages number
+    }, [itemsData])
 
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
 
         const newOffset = event.selected * itemsPerPage % itemsData.length;
-        console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
         setItemOffset(newOffset);
         setPageOffset(event.selected);
     };
