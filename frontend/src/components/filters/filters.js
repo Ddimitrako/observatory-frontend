@@ -1,17 +1,12 @@
 import React, {useState, useEffect} from 'react';
-
+import {css} from "@emotion/react";
 import axios from "axios";
-import {createRoot} from 'react-dom/client';
-import ReactDOMServer from 'react-dom/server'
-import ItemsList from "../itemsList";
-
+import {SpinnerCircularSplit} from 'spinners-react';
 import SearchTextFilter from "./searchTextFilter";
-import {render} from 'react-dom';
 import PriorityFilter from "./priorityFilter"
 import PaginatedItems from "../itemsList";
 
 const Filters = () => {
-
     const [collections, listCollections] = useState([]); //use at check button
     const [checkedState, setCheckedState] = useState();           //use at check button
     var selectedCollectionsList = []
@@ -19,6 +14,7 @@ const Filters = () => {
     const [showPriorityFilter, setShowPriorityFilter] = useState(true)
     const [filteredCollectionsData, setFilteredCollectionsData] = useState()
     const [priority, setPriority] = useState('any')
+
     useEffect(() => {
         getCollections() //call at initialization
     }, []);
@@ -170,7 +166,11 @@ const Filters = () => {
                             {/*</header>*/}
 
                             <div id="itemList">
-                                {filteredCollectionsData &&<PaginatedItems itemsData={filteredCollectionsData}></PaginatedItems>}
+                                {!filteredCollectionsData && <SpinnerCircularSplit size={150} thickness={60}
+                                                                                   secondaryColor={'rgba(215,197,197,0.78)'}
+                                                                                   enabled={true}/>}
+                                {filteredCollectionsData &&
+                                <PaginatedItems itemsData={filteredCollectionsData}></PaginatedItems>}
                             </div>
 
                         </main>
