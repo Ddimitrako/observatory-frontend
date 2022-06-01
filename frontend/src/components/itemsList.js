@@ -1,10 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import ReactDOM from 'react-dom';
 import ReactPaginate from 'react-paginate';
+import {Link} from 'react-router-dom';
 
 const ItemsList = ({filteredData}) => {
-    // console.log(filteredData)
-    // const [items, setItems] = useState([])
     let hasPriority = false
     if (!Array.isArray(filteredData)) {
         return <div>No data available</div>
@@ -19,42 +17,46 @@ const ItemsList = ({filteredData}) => {
     return (
         <div>
             <div className='item-container'>
-                {filteredData.map((item, index) => (
+                {
+                    filteredData.map((item, index) => (
 
-                    <article className="card card-product-list" key={item._id}>
-                        <div className="row no-gutters">
+                        <article className="card card-product-list" key={item._id}>
+                            <div className="row no-gutters">
 
-                            <div className="col-md-12">
+                                <div className="col-md-12">
 
-                                <div className="info-main bg">
-                                    <div className="container">
-                                        <div className="row">
-                                            <div className="col-md-8"><a href="/#"
-                                                                         className="h5 title "> {item.name}</a></div>
-                                            {item.priority &&
-                                            <div className=" d-flex justify-content-end h5 col-md-2 center-right"><p
-                                                className=" badge font-weight-bold">Priority:
-                                            </p></div>}
-                                            {<div className="d-flex justify-content-start h5 col-md-2 ml-auto"><span
-                                                className="badge badge-primary">{item.priority}</span></div>}
+                                    <div className="info-main bg">
+                                        <div className="container">
+
+                                            <div className="row">
+                                                <div className="col-md-8"><a
+                                                    className="h5 title "> <Link to={'/item/' + item.name}
+                                                                                 state={item}>{item.name}</Link></a>
+                                                </div>
+                                                {item.priority &&
+                                                <div className=" d-flex justify-content-end h5 col-md-2 center-right"><p
+                                                    className=" badge font-weight-bold">Priority:
+                                                </p></div>}
+                                                {<div className="d-flex justify-content-start h5 col-md-2 ml-auto"><span
+                                                    className="badge badge-primary">{item.priority}</span></div>}
 
 
-                                            {/*<div className="col-xs-4 ">*/}
-                                            {/*</div>*/}
-                                            {/*<div className="h5 col-xs-4">*/}
-                                            {/*    <div className=""></div>*/}
-                                            {/*</div>*/}
+                                                {/*<div className="col-xs-4 ">*/}
+                                                {/*</div>*/}
+                                                {/*<div className="h5 col-xs-4">*/}
+                                                {/*    <div className=""></div>*/}
+                                                {/*</div>*/}
+                                            </div>
+                                            <p> {item.description} </p>
                                         </div>
-                                        <p> {item.description} </p>
                                     </div>
                                 </div>
+
                             </div>
-
-                        </div>
-                    </article>
+                        </article>
 
 
-                ))}
+                    ))}
             </div>
         </div>
     );
@@ -66,7 +68,7 @@ const PaginatedItems = ({itemsData}) => {
     if (itemsData === undefined) {
         itemsData = []
     }
-    const itemsPerPage = 6
+    const itemsPerPage = 5
     // We start with an empty list of items.
     const [currentItems, setCurrentItems] = useState();
     const [pageCount, setPageCount] = useState(0);
@@ -76,6 +78,7 @@ const PaginatedItems = ({itemsData}) => {
     const [pageOffset, setPageOffset] = useState(0);
     useEffect(() => {
         // Fetch items from another resources.
+        console.log(itemsData)
         const endOffset = itemOffset + itemsPerPage;
         // console.log(`Loading items from ${itemOffset} to ${endOffset}`);
         setCurrentItems(itemsData.slice(itemOffset, endOffset));
