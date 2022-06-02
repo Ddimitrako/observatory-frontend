@@ -165,10 +165,13 @@ const Filters = () => {
                             {/*    </div>*/}
                             {/*</header>*/}
 
-                            <div id="itemList">
-                                {!filteredCollectionsData && <SpinnerCircularSplit size={150} thickness={60}
+                            <div id="itemList" >
+                                <div style={{position:"absolute",top:"25%",left: "25%"}}>
+                                    {!filteredCollectionsData && <SpinnerCircularSplit size={150} thickness={60}
                                                                                    secondaryColor={'rgba(215,197,197,0.78)'}
                                                                                    enabled={true}/>}
+                                </div>
+
                                 {filteredCollectionsData &&
                                 <PaginatedItems itemsData={filteredCollectionsData}></PaginatedItems>}
                             </div>
