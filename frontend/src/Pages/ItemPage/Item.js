@@ -24,7 +24,8 @@ const Item = () => {
                         <div><h2>Title: {data.name}</h2></div>
                         <div><h5>Description: {data.description}</h5></div>
                         {data.solution && <div>Solution: {data.solution}</div>}
-                        {data.priority && <div>priority: {data.priority}</div>}
+                        {data.priority && <div>Priority: {data.priority}</div>}
+                        {data.source && <div>Source: {data.source}</div>}
                         {/*<h4 className="muted">Lorem ipsum dolor sit amet consectetur elit...</h4>*/}
                         {/*<p>Lorem ipsum dolor sit amet consectetur elit...</p>*/}
                         <hr></hr>
