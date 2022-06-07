@@ -18,7 +18,7 @@ const SearchTextFilter = ({priority, selectedCollList, setFilteredCollectionsDat
     }, [searchBarText])
 
     function handleChange(e) {
-        console.log(e.target.value); // your search bar text
+        // console.log(e.target.value); // your search bar text
         setSearchBarText(e.target.value)
     }
 
@@ -28,20 +28,32 @@ const SearchTextFilter = ({priority, selectedCollList, setFilteredCollectionsDat
 
 
     function filterTextAdvanced(text, collection, priority) {
-        console.log(text, collection, priority)
-
+        // console.log(text, collection, priority)
         let items = []
         // if (text.length == 0) {
         //     setFilteredCollectionsData([])
         //     return
         // }
         axios.post("http://localhost:8000/filter_data_by_advanced_search"
-            , {"collections": "need", "text": text, "filters": {"priority": priority}})
+            , {
+                "collections": collection,
+                "filters": {"priority": priority}
+            }, {
+                params: {
+                    text
+                }
+            })
             .then((response) => {
-                console.log(text, collection)
-                for (let position = 0; position < response.data.results.length; position++) {
-                    for (let i in response.data.results[position])
-                        items.push(response.data.results[position][i])
+                // console.log(
+                if (response.data.result[0].length == 0) {
+                    setFilteredCollectionsData('null')
+                } else {
+                    for (let position = 0; position < response.data.result.length; position++) {
+                        for (var value in response.data.result[position]) {
+                            items.push(response.data.result[position][value])
+                        }
+                    }
+
                     setFilteredCollectionsData(items)
                 }
             })
