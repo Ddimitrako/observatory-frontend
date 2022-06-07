@@ -44,16 +44,11 @@ const SearchTextFilter = ({priority, selectedCollList, setFilteredCollectionsDat
                 }
             })
             .then((response) => {
-                // console.log(
-                if (response.data.result[0].length == 0) {
-                    setFilteredCollectionsData('null')
-                } else {
-                    for (let position = 0; position < response.data.result.length; position++) {
-                        for (var value in response.data.result[position]) {
-                            items.push(response.data.result[position][value])
-                        }
+                console.log(response.data.result)
+                for (let position = 0; position < response.data.result.length; position++) {
+                    for (var value in response.data.result[position]) {
+                        items.push(response.data.result[position][value])
                     }
-
                     setFilteredCollectionsData(items)
                 }
             })
