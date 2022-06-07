@@ -3,19 +3,12 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 
 
-const SearchTextFilter = ({priority, selectedCollList, setFilteredCollectionsData}) => {
+const SearchTextFilter = ({searchBarText, setSearchBarText,priority, selectedCollList, setFilteredCollectionsData}) => {
 
-
-    const [searchBarText, setSearchBarText] = useState("")
 
     useEffect(() => {
-        // console.log(priority)
-        // if (priority === 'any' && 'needs' in selectedCollList) {
-        //
-        // } else {
-        //    // filterTextAdvanced()
-        // }
-    }, [searchBarText])
+        searchText()
+    }, [searchBarText,selectedCollList])
 
     function handleChange(e) {
         // console.log(e.target.value); // your search bar text
@@ -28,33 +21,29 @@ const SearchTextFilter = ({priority, selectedCollList, setFilteredCollectionsDat
 
 
     function filterTextAdvanced(text, collection, priority) {
-        // console.log(text, collection, priority)
         let items = []
-        // if (text.length == 0) {
-        //     setFilteredCollectionsData([])
-        //     return
-        // }
-        axios.post("http://localhost:8000/filter_data_by_advanced_search"
-            , {
-                "collections": collection,
-                "filters": {"priority": priority}
-            }, {
-                params: {
-                    text
-                }
-            })
-            .then((response) => {
-                console.log(response.data.result)
-                for (let position = 0; position < response.data.result.length; position++) {
-                    for (var value in response.data.result[position]) {
-                        items.push(response.data.result[position][value])
+        if (text !== "") {
+            axios.post("http://localhost:8000/filter_data_by_advanced_search"
+                , {
+                    "collections": collection,
+                    "filters": {"priority": priority}
+                }, {
+                    params: {
+                        text
                     }
-                    setFilteredCollectionsData(items)
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+                })
+                .then((response) => {
+                    for (let position = 0; position < response.data.result.length; position++) {
+                        for (var value in response.data.result[position]) {
+                            items.push(response.data.result[position][value])
+                        }
+                        setFilteredCollectionsData(items)
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     };
 
 
@@ -73,10 +62,10 @@ const SearchTextFilter = ({priority, selectedCollList, setFilteredCollectionsDat
                         <div className="input-group">
                             <input type="text" className="form-control" onChange={handleChange}
                                    placeholder="Search Description Text"/>
-                            <div className="input-group-append">
-                                <button className="btn btn-light" type="button" onClick={searchText}><i
-                                    className="fa fa-search"></i></button>
-                            </div>
+                            {/*<div className="input-group-append">*/}
+                            {/*    <button className="btn btn-light" type="button" onClick={searchText}><i*/}
+                            {/*        className="fa fa-search"></i></button>*/}
+                            {/*</div>*/}
                         </div>
                     </form>
                 </div>

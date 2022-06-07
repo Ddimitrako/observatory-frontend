@@ -1,44 +1,70 @@
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
 
-const PriorityFilter = ({priority, setPriority,setFilteredCollectionsData,selectedCollList}) => {
+const PriorityFilter = ({searchBarText,priority, setPriority,setFilteredCollectionsData,selectedCollList}) => {
 
     const handleChange = (event) => {
-        console.log(event.target.value)
+        // console.log(event.target.value)
         setPriority(event.target.value)
     }
     const resetRadioState = () => {
         setPriority('any');
     }
     useEffect(() => {
-            console.log("line14",priority)
-            getItemsByPriority(priority)
+            // console.log(priority)
+            getItemsByPriority(priority,searchBarText)
         // } //call at initialization
 
-    }, [priority]);
+    }, [priority,searchBarText]);
 
-    function getItemsByPriority(priority) {
-        console.log(selectedCollList)
+    function getItemsByPriority(priority,searchBarText) {
+        // console.log(selectedCollList)
         let allCollectionsList = []
-        if (priority === 'any'){
-            axios.post("http://localhost:8000/get_data/",selectedCollList )
-            .then((response) => {
 
-                for (let position = 0; position < response.data.results.length; position++) {
-                    for (let i in response.data.results[position])
-                        allCollectionsList.push(response.data.results[position][i])
-                    // console.log(allCollectionsList)
-                }
-                setFilteredCollectionsData(allCollectionsList)
-            })
-                .catch((err) => {
-                console.log(err);
-            });
-        }
-        else {
-            axios.post("http://localhost:8000/filter_data/needs", {"priority": priority})
+        if(searchBarText===""){
+            if (priority === 'any') {
+                axios.post("http://localhost:8000/get_data/", selectedCollList)
+                    .then((response) => {
+
+                        for (let position = 0; position < response.data.results.length; position++) {
+                            for (let i in response.data.results[position])
+                                allCollectionsList.push(response.data.results[position][i])
+                            // console.log(allCollectionsList)
+                        }
+                        setFilteredCollectionsData(allCollectionsList)
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            } else {
+                axios.post("http://localhost:8000/filter_data/needs", {"priority": priority})
+                    .then((response) => {
+                        setFilteredCollectionsData(response.data.needs)
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            }
+        } else {
+            let items = []
+            // console.log(priority,selectedCollList,searchBarText)
+            axios.post("http://localhost:8000/filter_data_by_advanced_search"
+                , {
+                    "collections": selectedCollList,
+                    "filters": {"priority": priority}
+                }, {
+                    params: {
+                        text: searchBarText
+                    }
+                })
                 .then((response) => {
-                    setFilteredCollectionsData (response.data.needs)
+                    // console.log(response.data.result)
+                    for (let position = 0; position < response.data.result.length; position++) {
+                        for (var value in response.data.result[position]) {
+                            items.push(response.data.result[position][value])
+                        }
+                        setFilteredCollectionsData(items)
+                    }
                 })
                 .catch((err) => {
                     console.log(err);

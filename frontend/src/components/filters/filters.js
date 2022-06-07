@@ -16,6 +16,7 @@ const Filters = () => {
     const [filteredCollectionsData, setFilteredCollectionsData] = useState()
     const [priority, setPriority] = useState('any')
     const [itemsSum,setItemsSum] = useState(0)
+    const [searchBarText, setSearchBarText] = useState("")
 
     useEffect(() => {
         getCollections() //call at initialization
@@ -49,7 +50,7 @@ const Filters = () => {
         axios.post("http://localhost:8000/get_data"
             , data)
             .then((response) => {
-                console.log(data)
+                // console.log(data)
                 for (let position = 0; position < response.data.results.length; position++) {
                     for (let i in response.data.results[position])
                         allCollectionsList.push(response.data.results[position][i])
@@ -89,7 +90,7 @@ const Filters = () => {
             }
         })
         setSelectedCollList(filteredColList)
-        console.log(filteredColList)
+        // console.log(filteredColList)
         getFilteredCollectionsData(filteredColList)
         SetFiltersVisibility(filteredColList)
 
@@ -117,7 +118,7 @@ const Filters = () => {
                         <aside className="col-md-3">
                             <div id="filters"></div>
                             <div className="card">
-                                <SearchTextFilter priority={priority} selectedCollList={selectedCollList}
+                                <SearchTextFilter searchBarText={searchBarText} setSearchBarText={setSearchBarText} priority={priority} selectedCollList={selectedCollList}
                                                   setFilteredCollectionsData={setFilteredCollectionsData}></SearchTextFilter>
                                 <article className="filter-group">
                                     <header className="card-header">
@@ -153,7 +154,7 @@ const Filters = () => {
                                         </div>
                                     </div>
                                 </article>
-                                {showPriorityFilter && <PriorityFilter priority={priority} setPriority={setPriority}
+                                {showPriorityFilter && <PriorityFilter searchBarText={searchBarText} priority={priority} setPriority={setPriority}
                                                                        setFilteredCollectionsData={setFilteredCollectionsData}
                                                                        selectedCollList={selectedCollList}></PriorityFilter>}
                             </div>
