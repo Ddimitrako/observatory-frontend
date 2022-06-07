@@ -27,11 +27,11 @@ const PriorityFilter = ({priority, setPriority,setFilteredCollectionsData,select
                 for (let position = 0; position < response.data.results.length; position++) {
                     for (let i in response.data.results[position])
                         allCollectionsList.push(response.data.results[position][i])
-                    console.log(allCollectionsList)
-                    setFilteredCollectionsData(allCollectionsList)
+                    // console.log(allCollectionsList)
                 }
+                setFilteredCollectionsData(allCollectionsList)
             })
-            .catch((err) => {
+                .catch((err) => {
                 console.log(err);
             });
         }
