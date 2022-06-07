@@ -4,8 +4,8 @@ import {Link} from 'react-router-dom';
 
 const ItemsList = ({filteredData}) => {
     let hasPriority = false
-    if (!Array.isArray(filteredData)) {
-        return <div>No data available</div>
+    if (!Array.isArray(filteredData) || filteredData.length==0) {
+        return <div><strong>No data available</strong></div>
     }
     // {
     //     filteredData.map((item, index) => {
