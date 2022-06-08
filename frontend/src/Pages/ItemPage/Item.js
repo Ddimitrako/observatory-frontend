@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../../components/navbar";
+import NavigationBar from "../../components/navbar";
 import Footer from "../../components/footer";
 import {useLocation} from 'react-router-dom';
 
@@ -10,7 +10,7 @@ const Item = () => {
     return (
         <div>
             <header className="section-header">
-                <div><Navbar/></div>
+                <div><NavigationBar/></div>
 
             </header>
 
