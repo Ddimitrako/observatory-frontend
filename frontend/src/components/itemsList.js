@@ -67,7 +67,7 @@ const PaginatedItems = ({itemsData}) => {
     if (itemsData === undefined) {
         itemsData = []
     }
-    const itemsPerPage = 5
+    const itemsPerPage = 8
     // We start with an empty list of items.
     const [currentItems, setCurrentItems] = useState();
     const [pageCount, setPageCount] = useState(0);
