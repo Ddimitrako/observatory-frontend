@@ -30,7 +30,7 @@ const ItemsList = ({filteredData}) => {
 
                                             <div className="row">
                                                 <div className="col-md-8"> <Link to={'/item/' + item.name}
-                                                                                 state={item}>{item.name}</Link>
+                                                                                 state={item}><h5><strong>{item.name}</strong></h5></Link>
                                                 </div>
                                                 {item.priority &&
                                                 <div className=" d-flex justify-content-end h5 col-md-2 center-right"><p
@@ -88,7 +88,6 @@ const PaginatedItems = ({itemsData,setItemsSum}) => {
     useEffect(() => {        //if itemsData change go to page 1
         setPageOffset(0)
         setItemOffset(0)
-        setPageOffset(0)
         const endOffset = itemOffset + itemsPerPage;
         setCurrentItems(itemsData.slice(itemOffset, endOffset));
         setPageCount(Math.ceil(itemsData.length / itemsPerPage)); //pages number
