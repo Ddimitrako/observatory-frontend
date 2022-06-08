@@ -91,7 +91,9 @@ const Filters = () => {
         })
         setSelectedCollList(filteredColList)
         // console.log(filteredColList)
-        getFilteredCollectionsData(filteredColList)
+         if (searchBarText === "") {
+             getFilteredCollectionsData(filteredColList)
+         }
         SetFiltersVisibility(filteredColList)
 
     };
