@@ -22,11 +22,11 @@ const NavigationBar = () => {
             </button>
 
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul className="navbar-nav mr-auto">
-                    <li className="nav-item active">
+                <ul className="navbar-nav mr-auto ">
+                    <li className="nav-item active col-lg-5">
                         <Link to="/">HOME</Link> <span className="sr-only">(current)</span>
                     </li>
-                    <li className="nav-item">
+                    <li className="nav-item col-lg-5">
                         <Link to="/About">ABOUT</Link>
                     </li>
                 </ul>
