@@ -24,17 +24,14 @@ const Filters = () => {
 
 
     function getCollections() {
-        let sumItems = 0
         axios.get("http://localhost:8000/get_collections/")
             .then((response) => {
                 listCollections(response.data.result);
                 setCheckedState(new Array(response.data.result.length).fill(true))
                 for (let i in response.data.result) {
                     selectedCollectionsList.push(response.data.result[i]["collection_name"])
-                    sumItems = sumItems + response.data.result[i]["count"]
                 }
                 getFilteredCollectionsData(selectedCollectionsList) //selectedCollections=["needs","challenges"]
-                setItemsSum(sumItems)
             })
             .catch((err) => {
                 console.log(err);
@@ -163,7 +160,7 @@ const Filters = () => {
 
                         </aside>
                         <main className="col-md-9">
-                            <ItemsSum sum={itemsSum}/>
+                            <ItemsSum itemsSum={itemsSum}/>
                             {/*<header className="border-bottom mb-4 pb-3">*/}
                             {/*    <div className="form-inline">*/}
                             {/*        <span className="mr-md-auto">32 Items found </span>*/}
@@ -182,7 +179,7 @@ const Filters = () => {
                                 </div>
 
                                 {filteredCollectionsData &&
-                                <PaginatedItems itemsData={filteredCollectionsData}></PaginatedItems>}
+                                <PaginatedItems itemsData={filteredCollectionsData} setItemsSum={setItemsSum}></PaginatedItems>}
                             </div>
 
                         </main>

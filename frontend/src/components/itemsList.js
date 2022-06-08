@@ -63,7 +63,7 @@ const ItemsList = ({filteredData}) => {
 
 // Example items, to simulate fetching from another resources.
 
-const PaginatedItems = ({itemsData}) => {
+const PaginatedItems = ({itemsData,setItemsSum}) => {
     if (itemsData === undefined) {
         itemsData = []
     }
@@ -82,7 +82,7 @@ const PaginatedItems = ({itemsData}) => {
         setCurrentItems(itemsData.slice(itemOffset, endOffset));
         // console.log(itemsData.slice(itemOffset, endOffset))
         setPageCount(Math.ceil(itemsData.length / itemsPerPage)); //pages number
-
+        setItemsSum(itemsData.length)
     }, [itemOffset, itemsPerPage, itemsData]);
 
     useEffect(() => {        //if itemsData change go to page 1
