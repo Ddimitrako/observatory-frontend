@@ -29,9 +29,8 @@ const ItemsList = ({filteredData}) => {
                                         <div className="container">
 
                                             <div className="row">
-                                                <div className="col-md-8"><a
-                                                    className="h5 title "> <Link to={'/item/' + item.name}
-                                                                                 state={item}>{item.name}</Link></a>
+                                                <div className="col-md-8"> <Link to={'/item/' + item.name}
+                                                                                 state={item}>{item.name}</Link>
                                                 </div>
                                                 {item.priority &&
                                                 <div className=" d-flex justify-content-end h5 col-md-2 center-right"><p
