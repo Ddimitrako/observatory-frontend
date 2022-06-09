@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+
+  observatory-frontend:
+    container_name: observatory-frontend
+    build:
+      context: ./frontend
+
+    ports:
+      - '3000:3000'
