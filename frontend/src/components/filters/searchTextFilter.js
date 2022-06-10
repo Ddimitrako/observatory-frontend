@@ -2,6 +2,7 @@ import PriorityFilter from "./priorityFilter";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 
+var hostName = process.env.REACT_APP_HOSTNAME.toString()
 
 const SearchTextFilter = ({searchBarText, setSearchBarText,priority, selectedCollList, setFilteredCollectionsData}) => {
 
@@ -23,7 +24,7 @@ const SearchTextFilter = ({searchBarText, setSearchBarText,priority, selectedCol
     function filterTextAdvanced(text, collection, priority) {
         let items = []
         if (text !== "") {
-            axios.post("http://localhost:8000/filter_data_by_advanced_search"
+            axios.post(hostName + '/filter_data_by_advanced_search'
                 , {
                     "collections": collection,
                     "filters": {"priority": priority}

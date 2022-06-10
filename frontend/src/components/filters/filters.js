@@ -7,6 +7,8 @@ import PriorityFilter from "./priorityFilter"
 import PaginatedItems from "../itemsList";
 import ItemsSum from "./ItemsSum";
 
+var hostName = process.env.REACT_APP_HOSTNAME.toString()
+
 const Filters = () => {
     const [collections, listCollections] = useState([]); //use at check button
     const [checkedState, setCheckedState] = useState();           //use at check button
@@ -24,7 +26,8 @@ const Filters = () => {
 
 
     function getCollections() {
-        axios.get("http://localhost:8000/get_collections/")
+
+        axios.get(hostName+'/get_collections/')
             .then((response) => {
                 listCollections(response.data.result);
                 setCheckedState(new Array(response.data.result.length).fill(true))
@@ -44,7 +47,7 @@ const Filters = () => {
             setFilteredCollectionsData(allCollectionsList)
             return
         }
-        axios.post("http://localhost:8000/get_data"
+        axios.post(hostName+'/get_data'
             , data)
             .then((response) => {
                 // console.log(data)

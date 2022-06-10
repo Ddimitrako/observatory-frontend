@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import axios from "axios";
 
+var hostName = process.env.REACT_APP_HOSTNAME.toString()
+
 const PriorityFilter = ({searchBarText,priority, setPriority,setFilteredCollectionsData,selectedCollList}) => {
 
     const handleChange = (event) => {
@@ -23,7 +25,7 @@ const PriorityFilter = ({searchBarText,priority, setPriority,setFilteredCollecti
 
         if(searchBarText===""){
             if (priority === 'any') {
-                axios.post("http://localhost:8000/get_data/", selectedCollList)
+                axios.post(hostName + "/get_data/", selectedCollList)
                     .then((response) => {
 
                         for (let position = 0; position < response.data.results.length; position++) {
@@ -37,7 +39,7 @@ const PriorityFilter = ({searchBarText,priority, setPriority,setFilteredCollecti
                         console.log(err);
                     });
             } else {
-                axios.post("http://localhost:8000/filter_data/needs", {"priority": priority})
+                axios.post(hostName + "/filter_data/needs", {"priority": priority})
                     .then((response) => {
                         setFilteredCollectionsData(response.data.needs)
                     })
@@ -48,7 +50,7 @@ const PriorityFilter = ({searchBarText,priority, setPriority,setFilteredCollecti
         } else {
             let items = []
             // console.log(priority,selectedCollList,searchBarText)
-            axios.post("http://localhost:8000/filter_data_by_advanced_search"
+            axios.post(hostName + "/filter_data_by_advanced_search"
                 , {
                     "collections": selectedCollList,
                     "filters": {"priority": priority}
