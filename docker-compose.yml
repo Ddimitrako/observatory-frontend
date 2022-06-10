@@ -8,3 +8,9 @@ services:
 
     ports:
       - '3000:3000'
+    networks:
+      - observatory_network
+
+networks:
+  observatory_network:
+    external: true
