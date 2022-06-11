@@ -13,7 +13,7 @@ const SearchTextFilter = ({searchBarText, setSearchBarText,priority, selectedCol
 
     function handleChange(e) {
         // console.log(e.target.value); // your search bar text
-        e.preventDefault()
+        //e.preventDefault()
         setSearchBarText(e.target.value)
     }
 
