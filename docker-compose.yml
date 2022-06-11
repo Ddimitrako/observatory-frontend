@@ -5,12 +5,5 @@ services:
     container_name: observatory-frontend
     build:
       context: ./frontend
-
     ports:
       - '3000:3000'
-    networks:
-      - observatory_network
-
-networks:
-  observatory_network:
-    external: true
