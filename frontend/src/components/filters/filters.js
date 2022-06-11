@@ -29,6 +29,7 @@ const Filters = () => {
 
         axios.get(hostName+'/get_collections')
             .then((response) => {
+                response.header("Access-Control-Allow-Origin", "*")
                 listCollections(response.data.result);
                 setCheckedState(new Array(response.data.result.length).fill(true))
                 for (let i in response.data.result) {
@@ -50,6 +51,7 @@ const Filters = () => {
         axios.post(hostName+'/get_data'
             , data)
             .then((response) => {
+                response.header("Access-Control-Allow-Origin", "*")
                 // console.log(data)
                 for (let position = 0; position < response.data.results.length; position++) {
                     for (let i in response.data.results[position])
