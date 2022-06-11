@@ -27,7 +27,7 @@ const Filters = () => {
 
     function getCollections() {
 
-        axios.get(hostName+'/get_collections/')
+        axios.get(hostName+'/get_collections')
             .then((response) => {
                 listCollections(response.data.result);
                 setCheckedState(new Array(response.data.result.length).fill(true))
