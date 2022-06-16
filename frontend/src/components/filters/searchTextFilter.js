@@ -63,6 +63,7 @@ const SearchTextFilter = ({searchBarText, setSearchBarText,priority, selectedCol
                     <form className="pb-3">
                         <div className="input-group">
                             <input type="text" className="form-control" onChange={handleChange}
+                                   onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
                                    placeholder="Search Description Text"/>
                             {/*<div className="input-group-append">*/}
                             {/*    <button className="btn btn-light" type="button" onClick={searchText}><i*/}
