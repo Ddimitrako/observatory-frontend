@@ -9,7 +9,7 @@ const Item = () => {
     return (
         <div>
             <header className="section-header">
-                <div><NavigationBar/></div>
+                {/*<div><NavigationBar/></div>*/}
 
             </header>
 

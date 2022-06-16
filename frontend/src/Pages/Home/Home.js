@@ -11,10 +11,10 @@ const Home=()=>{
     return  (
         <div className="Home">
             <header className="section-header">
-                <div><NavigationBar/></div>
+                {/*<div><NavigationBar/></div>*/}
             </header>
             <div id="Filters"><Filters/></div>
-            <Footer/>
+            {/*<Footer/>*/}
 
 
 
