@@ -96,20 +96,24 @@ const Filters = () => {
          if (searchBarText === "") {
              getFilteredCollectionsData(filteredColList)
          }
-        SetFiltersVisibility(filteredColList)
+        // SetFiltersVisibility(filteredColList)
 
     };
+    useEffect(() => {
+        SetFiltersVisibility()
+    }, [selectedCollList])
 
-    function SetFiltersVisibility(list) { //Hide or show TEXT and PRIORITY filters
-        for (let obj in list) {
-            if (list[obj] == 'needs') {
+    function SetFiltersVisibility() { //Hide or show TEXT and PRIORITY filters
+        console.log(selectedCollList)
+
+            if (selectedCollList.indexOf("needs") > -1) {
                 setShowPriorityFilter(true)
                 setPriority("any")
             } else {
                 setShowPriorityFilter(false)
                 setPriority("any")
             }
-        }
+        console.log(showPriorityFilter)
     }
 
     return (
