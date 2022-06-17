@@ -35,11 +35,16 @@ const SearchTextFilter = ({searchBarText, setSearchBarText,priority, selectedCol
                     }
                 })
                 .then((response) => {
-                    for (let position = 0; position < response.data.result.length; position++) {
-                        for (var value in response.data.result[position]) {
-                            items.push(response.data.result[position][value])
+                    if (response.data.result.length === 0) {
+                        console.log("no data found")
+                        setFilteredCollectionsData([])
+                    } else {
+                        for (let position = 0; position < response.data.result.length; position++) {
+                            for (var value in response.data.result[position]) {
+                                items.push(response.data.result[position][value])
+                            }
+                            setFilteredCollectionsData(items)
                         }
-                        setFilteredCollectionsData(items)
                     }
                 })
                 .catch((err) => {
