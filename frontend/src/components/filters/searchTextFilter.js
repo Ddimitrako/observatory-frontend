@@ -60,7 +60,7 @@ const SearchTextFilter = ({searchBarText, setSearchBarText,priority, selectedCol
                 <a href="/#" data-toggle="collapse" data-target="#collapse_1"
                    aria-expanded="true" className="">
                     <i className="icon-control fa fa-chevron-down"></i>
-                    <h6 className="title">TEXT</h6>
+                    <h6 className="Title-Color title">TEXT</h6>
                 </a>
             </header>
             <div className="filter-content collapse show" id="collapse_1">

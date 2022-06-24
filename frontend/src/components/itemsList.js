@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import ReactPaginate from 'react-paginate';
 import {Link} from 'react-router-dom';
-
+import '../App.css';
 const ItemsList = ({filteredData}) => {
     let hasPriority = false
     if (!Array.isArray(filteredData) || filteredData.length==0) {
@@ -29,15 +29,15 @@ const ItemsList = ({filteredData}) => {
                                         <div className="container">
 
                                             <div className="row">
-                                                <div className="col-md-8"> <Link to={'/item/' + item.name}
-                                                                                 state={item}><h5><strong>{item.name}</strong></h5></Link>
+                                                <div className="col-md-8" > <Link to={'/item/' + item.name}
+                                                                                 state={item}><h5><strong className="Title-Color">{item.name}</strong></h5></Link>
                                                 </div>
                                                 {item.priority &&
                                                 <div className=" d-flex justify-content-end h5 col-md-2 center-right"><p
                                                     className=" badge font-weight-bold">Priority:
                                                 </p></div>}
-                                                {<div className="d-flex justify-content-start h5 col-md-2 ml-auto"><span
-                                                    className="badge badge-primary">{item.priority}</span></div>}
+                                                {<div className="d-flex justify-content-start h5 col-md-2 ml-auto" ><span
+                                                    className="badge badge-info text-dark" >{item.priority}</span></div>}
 
 
                                                 {/*<div className="col-xs-4 ">*/}

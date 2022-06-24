@@ -36,3 +36,13 @@
 /*    transform: rotate(360deg);*/
 /*  }*/
 /*}*/
+
+.Title-Color {
+  color: #7600ff;
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #7600ff;
+    border-color: #3167eb;
+}
