@@ -33,18 +33,13 @@ const ItemsList = ({filteredData}) => {
                                                                                  state={item}><h5><strong className="Title-Color">{item.name}</strong></h5></Link>
                                                 </div>
                                                 {item.priority &&
-                                                <div className=" d-flex justify-content-end h5 col-md-2 center-right"><p
-                                                    className=" badge font-weight-bold">Priority:
+                                                <div className=" d-flex justify-content-end h5 col-md-2 ml-auto"><p
+                                                    className=" badge font-weight-bold" style={{display: "inline"}}>Priority:&nbsp;
+                                                    <span className="text badge-info rounded-sm">{item.priority}</span>
+                                                    <span className="icon"></span>
                                                 </p></div>}
-                                                {<div className="d-flex justify-content-start h5 col-md-2 ml-auto" ><span
-                                                    className="badge badge-info text-dark" >{item.priority}</span></div>}
 
 
-                                                {/*<div className="col-xs-4 ">*/}
-                                                {/*</div>*/}
-                                                {/*<div className="h5 col-xs-4">*/}
-                                                {/*    <div className=""></div>*/}
-                                                {/*</div>*/}
                                             </div>
                                             <p> {item.description} </p>
                                         </div>
