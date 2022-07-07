@@ -21,22 +21,23 @@ const Item = () => {
                     <div className="span7">
                         <hr></hr>
                         <div><h2>{data.name}</h2></div>
-                        <div><h5>Description:</h5></div>
+                        <hr></hr>
+                        {/*<div><h5>Description:</h5></div>*/}
                         <div>{data.description}</div>
                         {data.solution && <div id={"solution_id"}>
                             <h6>Solution:
                                 <div>{data.solution}</div>
                             </h6>
                         </div>}
+                        <br/>
                         {data.priority && <div>
                             <h6>Priority:</h6>
-                            <div>{data.priority}</div>
+                            <div><span className="span badge-info rounded-sm">{data.priority}</span></div>
                         </div>}
+                        <br/>
                         {data.source && <div><h6>Source:</h6>
-                            <div>{data.source}</div>
+                            <div><a href={data.source}>{data.source}</a></div>
                         </div>}
-                        {/*<h4 className="muted">Lorem ipsum dolor sit amet consectetur elit...</h4>*/}
-                        {/*<p>Lorem ipsum dolor sit amet consectetur elit...</p>*/}
                         <hr></hr>
                     </div>
                 </div>
