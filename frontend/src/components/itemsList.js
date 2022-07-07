@@ -41,7 +41,7 @@ const ItemsList = ({filteredData}) => {
 
 
                                             </div>
-                                            <p> {item.description} </p>
+                                            <p  className="description" > {item.description} </p>
                                         </div>
                                     </div>
                                 </div>
