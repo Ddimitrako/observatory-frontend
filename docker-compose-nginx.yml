@@ -1,0 +1,9 @@
+version: '3.1'
+services:
+
+  observatory-frontend:
+    container_name: observatory-frontend
+    build:
+      context: ./frontend
+    expose:
+      - 3000
