@@ -7,3 +7,9 @@ services:
       context: ./frontend
     expose:
       - 3000
+    networks:
+      - limesurvey_network
+
+networks:
+  limesurvey_network:
+    external: true
